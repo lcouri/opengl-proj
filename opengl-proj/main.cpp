@@ -2,25 +2,21 @@
 #include <GLFW/glfw3.h>
 #include <iostream>
 
+#include "FileUtil.h"
+
 const unsigned int SCR_WIDTH = 800;
 const unsigned int SCR_HEIGHT = 600;
 
 void framebufferSizeCallback(GLFWwindow *window, int width, int height);
 void processInput(GLFWwindow *window);
 
-//shaders
-const char *vertexShaderSource = "#version 330 core\n"
-	"layout (location = 0) in vec3 aPos;\n"
-	"void main() {\n"
-	"	gl_Position = vec4(aPos, 1.0);\n"
-	"}\0";
-const char *fragmentShaderSource = "#version 330 core\n"
-	"out vec4 FragColor;\n"
-	"void main() {\n"
-	"	FragColor = vec4(1.0f, 0.5f, 0.2f, 1.0f);\n"
-	"}\0";
-
 int main() {
+	std::string sVS = readFileToString("vertexShader.glsl");
+	std::string sFS = readFileToString("fragmentShader.glsl");
+
+	const char *vertexShaderSource = sVS.c_str();
+	const char *fragmentShaderSource = sFS.c_str();
+
 	// ------------GLFW init---------------
 	glfwInit();
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
