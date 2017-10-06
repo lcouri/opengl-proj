@@ -30,6 +30,9 @@
     <ClCompile Include="FileUtil.cpp">
       <Filter>Source Files\Util</Filter>
     </ClCompile>
+    <ClCompile Include="Shader.cpp">
+      <Filter>Source Files\Shader</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="fragmentShader.glsl">
@@ -42,6 +45,9 @@
   <ItemGroup>
     <ClInclude Include="FileUtil.h">
       <Filter>Source Files\Util</Filter>
+    </ClInclude>
+    <ClInclude Include="Shader.h">
+      <Filter>Source Files\Shader</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
