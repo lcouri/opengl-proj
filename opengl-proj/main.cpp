@@ -1,40 +1,12 @@
-#include <glad/glad.h>
-#include <GLFW/glfw3.h>
 #include <iostream>
 
 #include "Shader.h"
-
-const unsigned int SCR_WIDTH = 800;
-const unsigned int SCR_HEIGHT = 600;
-
-void framebufferSizeCallback(GLFWwindow *window, int width, int height);
-void processInput(GLFWwindow *window);
+#include "Window.h"
 
 int main() {
-	// ------------GLFW init---------------
-	glfwInit();
-	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
-	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
-	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-#ifdef __APPLE__
-	glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
-#endif
+	Window window = Window();
 
-	// ---------GLFW window creation--------
-	GLFWwindow *window = glfwCreateWindow(SCR_WIDTH, SCR_HEIGHT, "Window to the soul (or something like that)", NULL, NULL);
-	if (window == NULL) {
-		std::cout << "Failed to create GLFW window" << std::endl;
-		glfwTerminate();
-		return -1;
-	}
-	glfwMakeContextCurrent(window);	
-	glfwSetFramebufferSizeCallback(window, framebufferSizeCallback);
-
-	// ------------GLAD init----------------
-	if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)) {
-		std::cout << "Failed to initialise GLAD" << std::endl;
-		return -1;
-	}
+	glEnable(GL_DEPTH_TEST);
 
 	// -----------shader setup--------------
 	Shader shader = Shader();
@@ -64,32 +36,22 @@ int main() {
 	shader.useProgram();
 
 	// ------------Render loop--------------
-	while (!glfwWindowShouldClose(window)) {
+	while (!window.shouldClose()) {
 		// input
-		processInput(window);
+		window.processInput();
 
 		// render stuff
 		glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
-		glClear(GL_COLOR_BUFFER_BIT);
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 		glBindVertexArray(VAO);
 		glDrawArrays(GL_TRIANGLES, 0, 3);
 
 		// poll events and swap buffers
 		glfwPollEvents();
-		glfwSwapBuffers(window);
+		glfwSwapBuffers(window.getWindow());
 	}
 
 	glfwTerminate();
 	return 0;
-}
-
-void framebufferSizeCallback(GLFWwindow *window, int width, int height) {
-	glViewport(0, 0, width, height);
-}
-
-void processInput(GLFWwindow *window) {
-	if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS) {
-		glfwSetWindowShouldClose(window, true);
-	}
 }
