@@ -10,20 +10,16 @@
 
 class Shader {
 public:
-	Shader();
+	Shader(const std::string &shaderPath, const GLenum type);
 
-	void addShader(const std::string &shaderPath, const GLenum type);
-	void useProgram();
-	void setUniform(const std::string &name, float v1, float v2, float v3, float v4);
-	void setUniform(const std::string &name, float v1);
-	void setUniform(const std::string &name, int v1);
-	void setUniform(const std::string &name, const GLfloat *v1);
+	unsigned int getID();
+	std::string getPath();
+	std::string getSource();
 
 private:
-	int shaderProgram;
-
-	void checkForShaderErrors(unsigned int id, std::string path);
-	void checkForLinkErrors();
+	unsigned int shaderID;
+	std::string shaderPath;
+	std::string shaderSource;
 };
 
 #endif

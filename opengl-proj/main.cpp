@@ -1,5 +1,6 @@
 #include <iostream>
 
+#include "ShaderProgram.h"
 #include "Shader.h"
 #include "Window.h"
 #include "Texture.h"
@@ -10,9 +11,9 @@ int main() {
 	glEnable(GL_DEPTH_TEST);
 
 	// -----------shader setup--------------
-	Shader shader = Shader();
-	shader.addShader("vertexShader.glsl", GL_VERTEX_SHADER);
-	shader.addShader("fragmentShader.glsl", GL_FRAGMENT_SHADER);
+	ShaderProgram shaderProgram = ShaderProgram();
+	shaderProgram.addShader("vertexShader.glsl", GL_VERTEX_SHADER);
+	shaderProgram.addShader("fragmentShader.glsl", GL_FRAGMENT_SHADER);
 
 	// ------------vert setup---------------
 	float vertices[] = {
@@ -59,9 +60,9 @@ int main() {
 	texture.addTextureUnit("Texture/container.jpg", GL_RGB);
 	texture.addTextureUnit("Texture/awesomeface.png", GL_RGBA);
 
-	shader.useProgram();
-	shader.setUniform("texture1", 0);
-	shader.setUniform("texture2", 1);
+	shaderProgram.use();
+	shaderProgram.setUniform("texture1", 0);
+	shaderProgram.setUniform("texture2", 1);
 
 	// ------------Render loop--------------
 	while (!window.shouldClose()) {
