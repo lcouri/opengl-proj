@@ -1,21 +1,22 @@
 #include "Mesh.h"
 
-//Mesh::Mesh(std::vector<float> vertices) {
-//	this->vertices = vertices;
-//
-//	genVAO();
-//	addVBO();
-//}
+Mesh::Mesh(std::vector<float> &vertices) {
+	genVAO();
+	
+	// position
+	addVBO(vertices, 3, 5);
+
+	// tex uvs
+	addVBO(vertices, 2, 5, 3);
+}
 
 Mesh::Mesh(std::vector<float> &vertices, std::vector<unsigned int> &indices) {
 	genVAO();
 
 	// position
-	addVBO(vertices, 3, GL_FLOAT, 8);
-	// colour
-	addVBO(vertices, 3, GL_FLOAT, 8, 3);
+	addVBO(vertices, 3, 5);
 	// tex uvs
-	addVBO(vertices, 2, GL_FLOAT, 8, 6);
+	addVBO(vertices, 2, 5, 3);
 
 	addEBO(indices);
 }
@@ -46,7 +47,7 @@ void Mesh::genVAO() {
 	glBindVertexArray(vao);
 }
 
-void Mesh::addVBO(const std::vector<float> &data, unsigned int dimensions, const GLenum type, const unsigned int stride, const unsigned int offset) {
+void Mesh::addVBO(const std::vector<float> &data, unsigned int dimensions, const unsigned int stride, const unsigned int offset, const GLenum type) {
 	size_t elementSize = sizeof(*data.data());
 	unsigned int vbo;
 	glGenBuffers(1, &vbo);

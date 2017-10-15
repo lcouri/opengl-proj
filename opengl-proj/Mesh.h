@@ -6,7 +6,7 @@
 
 class Mesh {
 public:
-	//Mesh(std::vector<float> vertices);
+	Mesh(std::vector<float> &vertices);
 	Mesh(std::vector<float> &vertices, std::vector<unsigned int> &indices);
 
 	void bind();
@@ -19,7 +19,7 @@ private:
 	unsigned int ebo;
 
 	void genVAO();
-	void addVBO(const std::vector<float> &data, const unsigned int dimensions, const GLenum type = GL_FLOAT, const unsigned int stride = 0, const unsigned int offset = 0);
+	void addVBO(const std::vector<float> &data, const unsigned int dimensions, const unsigned int stride = 0, const unsigned int offset = 0, const GLenum type = GL_FLOAT);
 	void addEBO(const std::vector<unsigned int> &indices);
 };
 
