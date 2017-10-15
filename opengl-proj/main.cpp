@@ -4,6 +4,7 @@
 #include "Shader.h"
 #include "Window.h"
 #include "Texture.h"
+#include "Mesh.h"
 
 int main() {
 	Window window = Window();
@@ -16,45 +17,19 @@ int main() {
 	shaderProgram.addShader("fragmentShader.glsl", GL_FRAGMENT_SHADER);
 
 	// ------------vert setup---------------
-	float vertices[] = {
+	std::vector<float> vertices = {
 		// positions          // colors           // texture coords
 		 0.5f,  0.5f, 0.0f,   1.0f, 0.0f, 0.0f,   1.0f, 1.0f,   // top right
 		 0.5f, -0.5f, 0.0f,   0.0f, 1.0f, 0.0f,   1.0f, 0.0f,   // bottom right
 		-0.5f, -0.5f, 0.0f,   0.0f, 0.0f, 1.0f,   0.0f, 0.0f,   // bottom left
 		-0.5f,  0.5f, 0.0f,   1.0f, 1.0f, 0.0f,   0.0f, 1.0f    // top left
 	};
-	unsigned int indices[] = {
+	std::vector<unsigned int> indices = {
 		0, 1, 3,
 		1, 2, 3
 	};
 
-	unsigned int VBO, VAO, EBO;
-	glGenVertexArrays(1, &VAO);
-	glGenBuffers(1, &VBO);
-	glGenBuffers(1, &EBO);
-
-	glBindVertexArray(VAO);
-
-	glBindBuffer(GL_ARRAY_BUFFER, VBO);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
-
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
-
-	// position
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)0);
-	glEnableVertexAttribArray(0);
-
-	// color
-	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(3 * sizeof(float)));
-	glEnableVertexAttribArray(1);
-
-	// texture
-	glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(6 * sizeof(float)));
-	glEnableVertexAttribArray(2);
-
-	glBindBuffer(GL_ARRAY_BUFFER, 0);
-	glBindVertexArray(0);
+	Mesh mesh = Mesh(vertices, indices);
 
 	Texture texture = Texture();
 	texture.addTextureUnit("Texture/container.jpg", GL_RGB);
@@ -77,7 +52,7 @@ int main() {
 		texture.bind(0);
 		texture.bind(1);
 
-		glBindVertexArray(VAO);
+		//mesh.bind();
 		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 
 		// poll events and swap buffers
@@ -86,9 +61,7 @@ int main() {
 	}
 
 	//----------de-allocate resources---------
-	glDeleteVertexArrays(1, &VAO);
-	glDeleteBuffers(1, &VBO);
-	glDeleteBuffers(1, &EBO);
+	mesh.deleteData();
 
 	glfwTerminate();
 	return 0;
