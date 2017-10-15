@@ -1,5 +1,9 @@
 #include <iostream>
 
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/type_ptr.hpp>
+
 #include "ShaderProgram.h"
 #include "Shader.h"
 #include "Window.h"
@@ -51,6 +55,11 @@ int main() {
 		// bind textures
 		texture.bind(0);
 		texture.bind(1);
+
+		glm::mat4 transform;
+		transform = glm::translate(transform, glm::vec3(0.5f, -0.5f, 0.0f));
+		transform = glm::rotate(transform, (float)glfwGetTime(), glm::vec3(0.0f, 0.0f, 1.0f));
+		shaderProgram.setUniform("transform", glm::value_ptr(transform));
 
 		//mesh.bind();
 		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
