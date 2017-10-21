@@ -1,5 +1,7 @@
 #include "Shader.h"
 
+#include "FileUtil.h"
+
 Shader::Shader(const std::string &shaderPath, const GLenum type) {
 	this->shaderPath = shaderPath;
 	shaderSource = readFileToString(shaderPath);

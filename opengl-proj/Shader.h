@@ -1,12 +1,9 @@
 #ifndef SHADER_H
 #define SHADER_H
 
-#include "FileUtil.h"
+#include <string>
 
 #include <glad/glad.h>
-
-#include <string>
-#include <iostream>
 
 class Shader {
 public:

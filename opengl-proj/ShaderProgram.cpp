@@ -1,5 +1,9 @@
 #include "ShaderProgram.h"
 
+#include <iostream>
+
+#include "FileUtil.h"
+
 ShaderProgram::ShaderProgram() {
 	shaderProgram = glCreateProgram();
 }

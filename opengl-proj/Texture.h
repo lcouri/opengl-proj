@@ -2,11 +2,8 @@
 #define TEXTURE_H
 
 #include <string>
-#include <iostream>
 
 #include <glad/glad.h>
-
-#include "stb_image.h"
 
 class Texture {
 public:

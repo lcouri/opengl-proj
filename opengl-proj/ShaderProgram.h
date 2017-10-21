@@ -1,14 +1,10 @@
 #ifndef SHADERPROGRAM_H
 #define SHADERPROGRAM_H
 
-#include "FileUtil.h"
 #include "Shader.h"
 
+#include <string>
 #include <glad/glad.h>
-
-#include <string>
-#include <iostream>
-#include <string>
 
 class ShaderProgram {
 public:

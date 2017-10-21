@@ -1,5 +1,9 @@
 #include "FileUtil.h"
 
+#include <fstream>
+#include <sstream>
+#include <stdexcept>
+
 std::string readFileToString(const std::string &path) {
 	std::ifstream inFile(path);
 	if (!inFile.is_open()) {
