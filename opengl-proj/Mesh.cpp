@@ -31,7 +31,7 @@ void Mesh::deleteData() {
 	}
 
 	if (vbos.size() > 0) {
-		glDeleteBuffers(vbos.size(), vbos.data());
+		glDeleteBuffers((GLsizei)vbos.size(), vbos.data());
 	}
 
 	if (ebo) {
@@ -54,7 +54,7 @@ void Mesh::addVBO(const std::vector<float> &data, unsigned int dimensions, const
 	glBindBuffer(GL_ARRAY_BUFFER, vbo);
 	glBufferData(GL_ARRAY_BUFFER, data.size() * elementSize, data.data(), GL_STATIC_DRAW);
 
-	glVertexAttribPointer(vertexAttribPointerIndex, dimensions, type, GL_FALSE, stride * elementSize, (void*)(offset * elementSize));
+	glVertexAttribPointer(vertexAttribPointerIndex, dimensions, type, GL_FALSE, stride * (GLsizei)elementSize, (void*)(offset * elementSize));
 	glEnableVertexAttribArray(vertexAttribPointerIndex);
 
 	vertexAttribPointerIndex++;

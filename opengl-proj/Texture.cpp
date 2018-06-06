@@ -81,6 +81,7 @@ GLenum Texture::getTexUnit(const unsigned int n) {
 		}
 		default: {
 			std::cout << "TexUnit out of bounds" << std::endl;
+			return NULL;
 		}
 	}
 }
