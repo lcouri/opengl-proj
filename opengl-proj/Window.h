@@ -10,24 +10,19 @@ public:
 
 	GLFWwindow *getWindow();
 	int shouldClose();
-	void processInput();
-	unsigned int getWidth();
-	unsigned int getHeight();
+	unsigned int getWidth() { return width; };
+	unsigned int getHeight() { return height; };
+
+	void framebufferSizeCallback(int width, int height);
+	void escapeKeyPress();
 
 private:
-	const unsigned int SCR_WIDTH = 800;
-	const unsigned int SCR_HEIGHT = 600;
+	const unsigned int SCR_WIDTH = 1280;
+	const unsigned int SCR_HEIGHT = 720;
 
 	unsigned int width;
 	unsigned int height;
 	GLFWwindow *window;
-
-	inline static void framebufferSizeCallback(GLFWwindow *win, int w, int h) {
-		Window *window = static_cast<Window*>(glfwGetWindowUserPointer(win));
-		window->framebufferResize(w, h);
-	}
-
-	void framebufferResize(int width, int height);
 };
 
 #endif

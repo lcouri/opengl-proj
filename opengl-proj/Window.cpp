@@ -22,21 +22,13 @@ Window::Window() {
 	}
 	glfwMakeContextCurrent(window);
 
-	glfwSetFramebufferSizeCallback(window, framebufferSizeCallback);
+	glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 
 	// ------------GLAD init----------------
 	if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)) {
 		std::cout << "Failed to initialise GLAD" << std::endl;
 	}
 
-	glfwSetWindowUserPointer(window, this);
-}
-
-unsigned int Window::getWidth() {
-	return width;
-}
-unsigned int Window::getHeight() {
-	return height;
 }
 
 int Window::shouldClose() {
@@ -47,14 +39,12 @@ GLFWwindow *Window::getWindow() {
 	return window;
 }
 
-void Window::processInput() {
-	if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS) {
-		glfwSetWindowShouldClose(window, true);
-	}
-}
-
-void Window::framebufferResize(int width, int height) {
+void Window::framebufferSizeCallback(int width, int height) {
 	glViewport(0, 0, width, height);
 	this->width = width;
 	this->height = height;
+}
+
+void Window::escapeKeyPress() {
+	glfwSetWindowShouldClose(window, true);
 }

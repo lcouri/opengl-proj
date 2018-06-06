@@ -7,11 +7,18 @@
 #include "ShaderProgram.h"
 #include "Shader.h"
 #include "Window.h"
+#include "Camera.h"
+#include "UserInput.h"
 #include "Texture.h"
 #include "Mesh.h"
 
+float deltaTime = 0.0f; // Time between current frame and last frame
+float lastFrame = 0.0f; // Time of last frame
+
 int main() {
 	Window window = Window();
+	Camera camera = Camera(window.getWindow());
+	UserInput userInput = UserInput(&window, &camera);
 
 	glEnable(GL_DEPTH_TEST);
 
@@ -95,7 +102,7 @@ int main() {
 	// ------------Render loop--------------
 	while (!window.shouldClose()) {
 		// input
-		window.processInput();
+		userInput.processInput(deltaTime);
 
 		// render stuff
 		glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
@@ -105,13 +112,10 @@ int main() {
 		texture.bind(0);
 		texture.bind(1);
 
-		//glm::mat4 model;
-		glm::mat4 view;
+		glm::mat4 view = camera.getViewMatrix();
+
 		glm::mat4 projection;
-		//model = glm::rotate(model, glm::radians(-55.0f), glm::vec3(1.0f, 0.0f, 0.0f));
-		//model = glm::rotate(model, (float)glfwGetTime() * glm::radians(50.0f), glm::vec3(0.5f, 1.0f, 0.0f));
-		view = glm::translate(view, glm::vec3(0.0f, 0.0f, -3.0f));
-		projection = glm::perspective(glm::radians(45.0f), (float)window.getWidth() / (float)window.getHeight(), 0.1f, 100.0f);
+		projection = glm::perspective(glm::radians(camera.getFov()), (float)window.getWidth() / (float)window.getHeight(), 0.1f, 100.0f);
 
 		//shaderProgram.setUniform("model", glm::value_ptr(model));
 		shaderProgram.setUniform("view", glm::value_ptr(view));
@@ -132,6 +136,10 @@ int main() {
 		// poll events and swap buffers
 		glfwPollEvents();
 		glfwSwapBuffers(window.getWindow());
+
+		float currentFrame = (float)glfwGetTime();
+		deltaTime = currentFrame - lastFrame;
+		lastFrame = currentFrame;
 	}
 
 	//----------de-allocate resources---------
