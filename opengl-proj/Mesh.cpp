@@ -1,24 +1,7 @@
 #include "Mesh.h"
 
-Mesh::Mesh(std::vector<float> &vertices) {
+Mesh::Mesh() {
 	genVAO();
-	
-	// position
-	addVBO(vertices, 3, 5);
-
-	// tex uvs
-	addVBO(vertices, 2, 5, 3);
-}
-
-Mesh::Mesh(std::vector<float> &vertices, std::vector<unsigned int> &indices) {
-	genVAO();
-
-	// position
-	addVBO(vertices, 3, 5);
-	// tex uvs
-	addVBO(vertices, 2, 5, 3);
-
-	addEBO(indices);
 }
 
 void Mesh::bind() {
@@ -47,7 +30,7 @@ void Mesh::genVAO() {
 	glBindVertexArray(vao);
 }
 
-void Mesh::addVBO(const std::vector<float> &data, unsigned int dimensions, const unsigned int stride, const unsigned int offset, const GLenum type) {
+unsigned int Mesh::addVBO(const std::vector<float> &data, unsigned int dimensions, const unsigned int stride, const unsigned int offset, const GLenum type) {
 	size_t elementSize = sizeof(*data.data());
 	unsigned int vbo;
 	glGenBuffers(1, &vbo);
@@ -56,6 +39,17 @@ void Mesh::addVBO(const std::vector<float> &data, unsigned int dimensions, const
 
 	glVertexAttribPointer(vertexAttribPointerIndex, dimensions, type, GL_FALSE, stride * (GLsizei)elementSize, (void*)(offset * elementSize));
 	glEnableVertexAttribArray(vertexAttribPointerIndex);
+
+	vertexAttribPointerIndex++;
+	vbos.push_back(vbo);
+
+	return vbo;
+}
+
+void Mesh::addVBO(const unsigned int vbo, const unsigned int dimensions, size_t elementSize, const unsigned int stride, const unsigned int offset, const GLenum type) {
+	glBindBuffer(GL_ARRAY_BUFFER, vbo);
+
+	glVertexAttribPointer(vertexAttribPointerIndex, dimensions, type, GL_FALSE, stride * (GLsizei)elementSize, (void*)(offset * elementSize));
 
 	vertexAttribPointerIndex++;
 	vbos.push_back(vbo);

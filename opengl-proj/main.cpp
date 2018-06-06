@@ -89,7 +89,9 @@ int main() {
 	//};
 
 	//Mesh mesh = Mesh(vertices, indices);
-	Mesh mesh = Mesh(vertices);
+	Mesh mesh = Mesh();
+	mesh.addVBO(vertices, 3, 5);
+	mesh.addVBO(vertices, 2, 5, 3);
 
 	Texture texture = Texture();
 	texture.addTextureUnit("Texture/container.jpg", GL_RGB);
